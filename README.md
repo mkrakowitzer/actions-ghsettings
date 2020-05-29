@@ -18,7 +18,14 @@ To apply settings to other reposotories the MU\_GITHUB\_TOKEN requires admin per
 * Create an action to run ghsettings
 
 ```yaml
-on: [push]
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'repo_config/**'
+  schedule:
+    - cron:  '0 * * * *'
 
 name: ghsettings
 
@@ -30,6 +37,7 @@ jobs:
     - uses: mkrakowitzer/actions-ghsettings@master
     env:
      MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
+     GITHUB_ORG: myorgname
 ```
 
 create a `repo_config` directory inside this repo. One file per repo you are managing:
