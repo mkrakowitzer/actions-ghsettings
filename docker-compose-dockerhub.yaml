@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  makepdfs:
+    container_name: ghsettings
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "mkrakowitzer/actions-ghsettings:${TAG:-latest}"
