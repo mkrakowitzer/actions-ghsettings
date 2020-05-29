@@ -3,7 +3,7 @@ name: 'ghsettings'
 description: 'Configure Github Settings for Organisations'
 runs:
   using: 'docker'
-  image: 'docker://mkrakowitzer/actions-makepdfs:latest'
+  image: 'docker://mkrakowitzer/actions-ghsettings:latest'
 
 branding:
   icon: 'activity'
