@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: mkrakowitzer/actions-ghsettings@master
+    - uses: mkrakowitzer/actions-ghsettings@v1.1
     env:
      MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
      GITHUB_ORG: myorgname
