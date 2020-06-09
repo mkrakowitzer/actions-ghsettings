@@ -4,7 +4,10 @@ description: 'Configure Github Settings for Organisations'
 runs:
   using: 'docker'
   image: 'docker://mkrakowitzer/actions-ghsettings:latest'
-
+inputs:
+  files:
+    description: 'list of comma delimited files'
+    required: false
 branding:
   icon: 'activity'
   color: 'green'
