@@ -10,8 +10,7 @@ runs:
 inputs:
   files:
     description: 'list of comma delimited files'
-    required: true
-    default: ''
+    required: false
 
 branding:
   icon: 'activity'
