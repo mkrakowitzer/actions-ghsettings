@@ -15,17 +15,15 @@ To apply settings to other reposotories the MU\_GITHUB\_TOKEN requires admin per
 
 ## Example usage
 
-* Create an action to run ghsettings
+* Create an action to run ghsettings, use `trilom/file-changes-action` action to only update settings for changed files
 
 ```yaml
 on:
   push:
     branches:
-    - master
+      - master
     paths:
-    - 'repo_config/**'
-  schedule:
-    - cron:  '0 * * * *'
+      - 'repo_config/**'
 
 name: ghsettings
 
@@ -33,11 +31,47 @@ jobs:
   ghsettings:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: mkrakowitzer/actions-ghsettings@v1.1
-    env:
-     MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
-     GITHUB_ORG: myorgname
+      - uses: actions/checkout@v2
+      - name: Get file changes
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.3
+        with:
+          output: ','
+      - uses: mkrakowitzer/actions-ghsettings@v1.2
+        if: steps.get_file_changes.outputs.files_modified
+        with:
+          files: ${{ steps.get_file_changes.outputs.files_modified }}
+        env:
+          MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
+          GITHUB_ORG: camelotls
+      - uses: mkrakowitzer/actions-ghsettings@v1.2
+        if: steps.get_file_changes.outputs.files_added
+        with:
+          files: ${{ steps.get_file_changes.outputs.files_added }}
+        env:
+          MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
+          GITHUB_ORG: camelotls
+```
+
+Update all repos via a scheduled cron action:
+
+```yaml
+on:   
+  schedule:
+  - cron: '57 0 * * *'
+
+name: ghsettings
+
+jobs:
+  ghsettings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mkrakowitzer/actions-ghsettings@v1.2
+        env:
+          MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
+          GITHUB_ORG: camelotls
+
 ```
 
 create a `repo_config` directory inside this repo. One file per repo you are managing:
@@ -165,7 +199,3 @@ branches:
     # Enforce all configured restrictions above for administrators.
     isAdminEnforced: true
 ```
-
-# Limitations
-Currently ghsettings manages the repo, collaborators, teams and branches. Removing any of these maps, removes any manually added users, groups and branches
-
