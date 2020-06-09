@@ -37,14 +37,14 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         with:
           output: ','
-      - uses: mkrakowitzer/actions-ghsettings@v1.2
+      - uses: mkrakowitzer/actions-ghsettings@v1.3
         if: steps.get_file_changes.outputs.files_modified
         with:
           files: ${{ steps.get_file_changes.outputs.files_modified }}
         env:
           MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
           GITHUB_ORG: camelotls
-      - uses: mkrakowitzer/actions-ghsettings@v1.2
+      - uses: mkrakowitzer/actions-ghsettings@v1.3
         if: steps.get_file_changes.outputs.files_added
         with:
           files: ${{ steps.get_file_changes.outputs.files_added }}
@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: mkrakowitzer/actions-ghsettings@v1.2
+      - uses: mkrakowitzer/actions-ghsettings@v1.3
         env:
           MU_GITHUB_TOKEN: ${{ secrets.MU_GITHUB_TOKEN }}
           GITHUB_ORG: camelotls
